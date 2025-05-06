@@ -81,7 +81,16 @@ def predict(song_duration_ms, acousticness, danceability, energy, instrumentalne
         dur, ac, dance, en, ins, key, live, loud, aum, spe, tem, ts, auv
     ]])
 
-    result = 'Not Popular' if prediction == 0 else 'Popular'
+    if prediction[0] >= 85:
+        result = 'Very Popular'
+    elif prediction[0] >= 70:
+        result = 'Popular'
+    elif prediction[0] >= 50:
+        result = 'Quite Popular'
+    elif prediction[0] >= 30:
+        result = 'Less Popular'
+    else:
+        result = 'Not Popular'
     return result
 
 if __name__ == "__main__":
