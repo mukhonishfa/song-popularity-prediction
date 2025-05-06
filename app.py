@@ -13,8 +13,8 @@ html_temp = """<div style="background-color:#000;padding:10px;border-radius:10px
 desc_temp = """ ### Song Popularity Prediction App 
                 This app is used by Cakrawala Team for predicting Song Popularity
                 
-                #### Data Source
-                Kaggle: Link <https://www.kaggle.com/datasets/yasserh/song-popularity-dataset>
+                ### Data Source
+                Kaggle: https://www.kaggle.com/datasets/yasserh/song-popularity-dataset
                 """
 
 def main():
