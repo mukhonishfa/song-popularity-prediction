@@ -45,7 +45,7 @@ def run_ml_app():
     loudness = right.number_input('Loudness', min_value=-35.00, max_value=1.60)
     audio_mode = left.selectbox('Audio Mode',(1,0))
     speechiness = right.number_input('Speechiness', min_value=0.00, max_value=1.00)
-    tempo = left.number_input('Tempo', min_value=50.00, max_value=200.00)
+    tempo = left.number_input('Tempo', min_value=0.00, max_value=243.00)
     time_signature = right.number_input('Time Signature', min_value=0, max_value=5)
     audio_valence = st.number_input('Audio Valence', min_value=0.00, max_value=1.00)
     button = st.button('Predict')
