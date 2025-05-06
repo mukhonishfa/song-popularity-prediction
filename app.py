@@ -40,7 +40,7 @@ def run_ml_app():
     danceability = left.number_input('Danceability', min_value=0.00, max_value=1.00)
     energy = right.number_input('Energy', min_value=0.00, max_value=1.00)
     instrumentalness = left.number_input('Instrumentalness', min_value=0.00, max_value=1.00)
-    key = right.number_input('Key', min_value=0, max_value=11)
+    key_val = right.number_input('Key', min_value=0, max_value=11)
     liveness = left.number_input('Liveness', min_value=0.00, max_value=1.00)
     loudness = right.number_input('Loudness', min_value=-35.00, max_value=1.60)
     audio_mode = left.selectbox('Audio Mode',(1,0))
@@ -52,14 +52,14 @@ def run_ml_app():
 
     #If button is clilcked
     if button:
-        result = predict(song_duration_ms, acousticness, danceability, energy, instrumentalness, key,
+        result = predict(song_duration_ms, acousticness, danceability, energy, instrumentalness, key_val,
                          liveness, loudness, audio_mode, speechiness, tempo, time_signature, audio_valence)
-        if result == ['Very Popular', 'Popular', 'Quite Popular']:
+        if result in ['Very Popular', 'Popular', 'Quite Popular']:
             st.success(f'This song is {result}')
         else:
             st.warning(f'This song is {result}')
 
-def predict(song_duration_ms, acousticness, danceability, energy, instrumentalness, key,
+def predict(song_duration_ms, acousticness, danceability, energy, instrumentalness, key_val,
             liveness, loudness, audio_mode, speechiness, tempo, time_signature, audio_valence):
     
     # Making prediction (process user input)
@@ -68,7 +68,7 @@ def predict(song_duration_ms, acousticness, danceability, energy, instrumentalne
     dance = 0 if danceability < 0.5 else 1
     en = 0 if energy < 0.5 else 1
     ins = 0 if instrumentalness < 0.5 else 1
-    key = 0 if key == [3,4,6,8,10] else 1
+    key = 0 if key_val in [3,4,6,8,10] else 1
     live = 0 if liveness < 0.5 else 1
     loud = 0 if loudness < -10 else 1
     aum = 0 if audio_mode == 0 else 1
