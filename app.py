@@ -42,7 +42,7 @@ def run_ml_app():
     instrumentalness = left.number_input('Instrumentalness', min_value=0.00, max_value=1.00)
     key = right.number_input('Key', min_value=0, max_value=11)
     liveness = left.number_input('Liveness', min_value=0.00, max_value=1.00)
-    loudness = right.number_input('Loudness', min_value=-15.00, max_value=1.00)
+    loudness = right.number_input('Loudness', min_value=-35.00, max_value=1.60)
     audio_mode = left.selectbox('Audio Mode',(1,0))
     speechiness = right.number_input('Speechiness', min_value=0.00, max_value=1.00)
     tempo = left.number_input('Tempo', min_value=50.00, max_value=200.00)
@@ -63,17 +63,17 @@ def predict(song_duration_ms, acousticness, danceability, energy, instrumentalne
             liveness, loudness, audio_mode, speechiness, tempo, time_signature, audio_valence):
     
     # Making prediction (process user input)
-    dur = 0 if song_duration_ms < 220000 else 1
-    ac = 0 if acousticness < 0.25 else 1
-    dance = 0 if danceability < 0.6 else 1
-    en = 0 if energy < 0.6 else 1
-    ins = 0 if instrumentalness < 0.07 else 1
+    dur = 0 if song_duration_ms < 200000 else 1
+    ac = 0 if acousticness < 0.5 else 1
+    dance = 0 if danceability < 0.5 else 1
+    en = 0 if energy < 0.5 else 1
+    ins = 0 if instrumentalness < 0.5 else 1
     key = 0 if key == [3,4,6,8,10] else 1
-    live = 0 if liveness < 0.18 else 1
-    loud = 0 if loudness < -7 else 1
+    live = 0 if liveness < 0.5 else 1
+    loud = 0 if loudness < -10 else 1
     aum = 0 if audio_mode == 0 else 1
-    spe = 0 if speechiness < 0.1 else 1
-    tem = 0 if tempo < 121 else 1
+    spe = 0 if speechiness < 0.5 else 1
+    tem = 0 if tempo < 120 else 1
     ts = 1 if time_signature == 4 else 0
     auv = 0 if audio_valence < 0.5 else 1
 
