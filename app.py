@@ -63,9 +63,22 @@ def predict(song_duration_ms, acousticness, danceability, energy, instrumentalne
             liveness, loudness, audio_mode, speechiness, tempo, time_signature, audio_valence):
     
     # Making prediction (process user input)
+    dur = 0 if song_duration_ms < 220000 else 1
+    ac = 0 if acousticness < 0.25 else 1
+    dance = 0 if danceability < 0.6 else 1
+    en = 0 if energy < 0.6 else 1
+    ins = 0 if instrumentalness < 0.07 else 1
+    key = 0 if key == [3,4,6,8,10] else 1
+    live = 0 if liveness < 0.18 else 1
+    loud = 0 if loudness < -7 else 1
+    aum = 0 if audio_mode == 0 else 1
+    spe = 0 if speechiness < 0.1 else 1
+    tem = 0 if tempo < 121 else 1
+    ts = 1 if time_signature == 4 else 0
+    auv = 0 if audio_valence < 0.5 else 1
+
     prediction = Elastic_Net_Model.predict([[
-        song_duration_ms, acousticness, danceability, energy, instrumentalness, key,
-        liveness, loudness, audio_mode, speechiness, tempo, time_signature, audio_valence
+        dur, ac, dance, en, ins, key, live, loud, aum, spe, tem, ts, auv
     ]])
 
     result = 'Not Popular' if prediction == 0 else 'Popular'
