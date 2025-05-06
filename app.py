@@ -54,7 +54,7 @@ def run_ml_app():
     if button:
         result = predict(song_duration_ms, acousticness, danceability, energy, instrumentalness, key,
                          liveness, loudness, audio_mode, speechiness, tempo, time_signature, audio_valence)
-        if result == 'Popular':
+        if result == ['Very Popular', 'Popular', 'Quite Popular']:
             st.success(f'This song is {result}')
         else:
             st.warning(f'This song is {result}')
