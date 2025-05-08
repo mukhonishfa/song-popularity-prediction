@@ -31,6 +31,19 @@ def main():
         st.markdown(desc_temp, unsafe_allow_html=True)
     elif choice == "Machine Learning App":
         run_ml_app()
+        
+# One-Hot Encoding
+def one_hot_encode_key(selected_key):
+    encoded = {}
+    for i in range(12):
+        encoded[f'key_{i}'] = [1 if selected_key == i else 0]
+    return encoded
+
+def one_hot_encode_time_signature(selected_ts):
+    encoded = {}
+    for i in range(6):
+        encoded[f'time_signature_{i}'] = [1 if selected_ts == i else 0]
+    return encoded
 
 def run_ml_app():
     design = """<div style="padding:15px;">
@@ -45,14 +58,14 @@ def run_ml_app():
     danceability = left.number_input('Danceability', min_value=0.00, max_value=1.00, step=0.01)
     energy = right.number_input('Energy', min_value=0.00, max_value=1.00, step=0.01)
     instrumentalness = left.number_input('Instrumentalness', min_value=0.00, max_value=1.00, step=0.01)
-    key = right.number_input('Key (0-11)', min_value=0, max_value=11, step=1)
     liveness = left.number_input('Liveness', min_value=0.00, max_value=1.00, step=0.01)
     loudness = right.number_input('Loudness', min_value=-60.00, max_value=0.00, step=0.01)
-    audio_mode = left.selectbox('Audio Mode', [0,1])
+    audio_mode = left.selectbox('Audio Mode', (0,1))
     speechiness = right.number_input('Speechiness', min_value=0.00, max_value=1.00, step=0.01)
     tempo = left.number_input('Tempo', min_value=0.00, max_value=1.00, step=0.01)
-    time_signature = right.selectbox('Time Signature', [1,2,3,4,5])
     audio_valence = st.number_input('Audio Valence', min_value=0.00, max_value=1.00, step=0.01)
+    selected_key = st.selectbox('Key', list(range(12)))
+    selected_time_signature = st.selectbox('Time Signature', list(range(6)))
     button = st.button('Predict')
 
     # If button is clilcked
