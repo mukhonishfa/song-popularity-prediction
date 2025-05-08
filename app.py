@@ -18,7 +18,7 @@ desc_temp = """ ### Song Popularity Prediction App
                 This app is used by Cakrawala Team for predicting Song Popularity
                 
                 #### Data Source
-                Kaggle: Link <https://www.kaggle.com/datasets/yasserh/song-popularity-dataset>
+                Kaggle: https://www.kaggle.com/datasets/yasserh/song-popularity-dataset
                 """
 
 def main():
