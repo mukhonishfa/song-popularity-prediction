@@ -32,7 +32,6 @@ def main():
     elif choice == "Machine Learning App":
         run_ml_app()
 
-
 # One-Hot Encoding
 def one_hot_encode_key(selected_key):
     encoded = {}
@@ -45,7 +44,6 @@ def one_hot_encode_time_signature(selected_ts):
     for i in range(6):
         encoded[f'time_signature_{i}'] = [1 if selected_ts == i else 0]
     return encoded
-
 
 def run_ml_app():
     design = """<div style="padding:15px;">
@@ -68,6 +66,7 @@ def run_ml_app():
     audio_mode = left.selectbox('Audio Mode', [0,1])
     selected_key = right.selectbox('Key', list(range(12)))
     selected_ts = st.selectbox('Time Signature', list(range(6)))
+    button = st.button('Predict')
 
     # Making Dictionary
     features = {
@@ -94,7 +93,7 @@ def run_ml_app():
     data = pd.DataFrame(data_dict)
 
     # If button is clilcked
-    if st.button("Predict"):
+    if st.button:
         if data.shape[1] == 26:
             # Load scaler and model
             with open('scaler.pkl', 'rb') as file:
@@ -108,9 +107,6 @@ def run_ml_app():
         # Making prediction
         prediction = best_lasso_model.predict(data_scaled)
         st.success(f'This song is {prediction[0]:.2f}')
-    else:
-        st.warning(f'This song is {prediction[0]:.2f}')
-
 
 if __name__ == "__main__":
     main()
