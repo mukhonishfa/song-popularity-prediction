@@ -100,7 +100,13 @@ def run_ml_app():
         with open('best_lasso_model.pkl', 'rb') as file:
             best_lasso_model = pickle.load(file)
     except FileNotFoundError:
-        st.error("File 'scaler.pkl' or 'best_lasso_model.pkl' not found.")
+        st.error("Error: 'scaler.pkl' or 'best_lasso_model.pkl' not found.")
+        return
+    except pickle.PickleError:
+        st.error("Error: Failed to load 'scaler.pkl' or 'best_lasso_model.pkl'. The files might be corrupted.")
+        return
+    except Exception as e:
+        st.error(f"An unexpected error occurred: {e}")
         return
         
     # If button is clilcked
@@ -111,9 +117,9 @@ def run_ml_app():
             
             # Making prediction
             prediction = best_lasso_model.predict(data_scaled)
-            st.success(f'This song is {prediction[0]:.2f}')
+            st.success(f'Predicted Song Popularity: {prediction[0]:.2f}')
         else:
-            st.warning(f'This song is {prediction[0]:.2f}')
+            st.error(f'Error: Incorrect number of features. Expected 26, but got {data.shape[1]}.')
 
 if __name__ == "__main__":
     main()
