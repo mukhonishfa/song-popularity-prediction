@@ -103,7 +103,7 @@ def run_ml_app():
                 best_lasso_model = pickle.load(file)
         
         # Transformation with scaler
-        data_scaled = scaler.transform(data)
+        data_scaled = std.transform(data)
 
         # Making prediction
         prediction = best_lasso_model.predict(data_scaled)
