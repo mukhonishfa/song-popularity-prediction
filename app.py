@@ -57,8 +57,10 @@ def run_ml_app():
 
     # If button is clilcked
     if button:
-        data = np.array([[song_duration_ms, acousticness, danceability, energy, instrumentalness, key,
-                         liveness, loudness, audio_mode, speechiness, tempo, time_signature, audio_valence]])
+        data = pd.DataFrame([[song_duration_ms, acousticness, danceability, energy, instrumentalness, key,
+                              liveness, loudness, audio_mode, speechiness, tempo, time_signature, audio_valence]],
+                            columns=['duration_ms', 'acousticness', 'danceability', 'energy', 'instrumentalness', 'key',
+                             'liveness', 'loudness', 'mode', 'speechiness', 'tempo', 'time_signature', 'valence']) 
         
         # Transformation with scaler
         data_scaled = scaler.transform(data)
