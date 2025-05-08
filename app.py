@@ -1,6 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as stc
 import pickle
+import pandas as pd
 import numpy as np
 
 with open('best_lasso_model.pkl', 'rb') as file:
