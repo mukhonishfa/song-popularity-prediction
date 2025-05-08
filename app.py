@@ -93,14 +93,19 @@ def run_ml_app():
     # Meaking DataFrame from dictionary
     data = pd.DataFrame(data_dict)
 
+    # Load scaler and model
+    try:
+        with open('scaler.pkl', 'rb') as file:
+            scaler = pickle.load(file)
+        with open('best_lasso_model.pkl', 'rb') as file:
+            best_lasso_model = pickle.load(file)
+    except FileNotFoundError:
+        st.error("File 'scaler.pkl' or 'best_lasso_model.pkl' not found.")
+        return
+        
     # If button is clilcked
     if st.button:
         if data.shape[1] == 26:
-            # Load scaler and model
-            with open('scaler.pkl', 'rb') as file:
-                scaler = pickle.load(file)
-            with open('best_lasso_model.pkl', 'rb') as file:
-                best_lasso_model = pickle.load(file)
         
         # Transformation with scaler
         data_scaled = scaler.transform(data)
