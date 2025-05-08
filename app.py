@@ -113,7 +113,7 @@ def run_ml_app():
             prediction = best_lasso_model.predict(data_scaled)
             st.success(f'This song is {prediction[0]:.2f}')
         else:
-            st.error(f'The number of features does not match')
+            st.warning(f'This song is {prediction[0]:.2f}')
 
 if __name__ == "__main__":
     main()
