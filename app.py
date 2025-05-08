@@ -36,13 +36,13 @@ def main():
 # One-Hot Encoding
 def one_hot_encode_key(selected_key):
     encoded = {}
-    for i in range(12):
+    for i in range(11):
         encoded[f'key_{i}'] = [1 if selected_key == i else 0]
     return encoded
 
 def one_hot_encode_time_signature(selected_ts):
     encoded = {}
-    for i in range(6):
+    for i in range(4):
         encoded[f'time_signature_{i}'] = [1 if selected_ts == i else 0]
     return encoded
 
@@ -65,8 +65,8 @@ def run_ml_app():
     tempo = left.number_input('Tempo', min_value=0.00, max_value=1.00, step=0.01)
     audio_valence = right.number_input('Audio Valence', min_value=0.00, max_value=1.00, step=0.01)
     audio_mode = left.selectbox('Audio Mode', [0,1])
-    selected_key = right.selectbox('Key', list(range(12)))
-    selected_ts = st.selectbox('Time Signature', list(range(6)))
+    selected_key = right.selectbox('Key', list(range(1)1))
+    selected_ts = st.selectbox('Time Signature', list(range(4)))
     button = st.button('Predict')
 
     # Making Dictionary
