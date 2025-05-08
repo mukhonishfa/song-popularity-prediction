@@ -2,7 +2,6 @@ import streamlit as st
 import streamlit.components.v1 as stc
 import pickle
 import pandas as pd
-import numpy as np
 
 with open('best_lasso_model.pkl', 'rb') as file:
     best_lasso_model = pickle.load(file)
@@ -65,7 +64,7 @@ def run_ml_app():
     tempo = left.number_input('Tempo', min_value=0.00, max_value=1.00, step=0.01)
     audio_valence = right.number_input('Audio Valence', min_value=0.00, max_value=1.00, step=0.01)
     audio_mode = left.selectbox('Audio Mode', [0,1])
-    selected_key = right.selectbox('Key', list(range(1)1))
+    selected_key = right.selectbox('Key', list(range(11)))
     selected_ts = st.selectbox('Time Signature', list(range(4)))
     button = st.button('Predict')
 
