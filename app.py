@@ -3,11 +3,20 @@ import streamlit.components.v1 as stc
 import pickle
 import pandas as pd
 
-with open('best_lasso_model.pkl', 'rb') as file:
-    best_lasso_model = pickle.load(file)
-
-with open ('scaler.pkl', 'rb') as file:
-    scaler = pickle.load(file)
+try:
+    with open('best_lasso_model.pkl', 'rb') as file:
+        best_lasso_model = pickle.load(file)
+    with open ('scaler.pkl', 'rb') as file:
+        scaler = pickle.load(file)
+except FileNotFoundError:
+    st.error("Error: 'scaler.pkl' or 'best_lasso_model.pkl' not found.")
+    st.stop()
+except pickle.PickleError:
+    st.error("Error: Failed to load 'scaler.pkl' or 'best_lasso_model.pkl'. The files might be corrupted.")
+    st.stop()
+except Exception as e:
+    st.error(f"An unexpected error occurred: {e}")
+    st.stop()
 
 html_temp = """<div style="background-color:#000;padding:10px;border-radius:10px">
                 <h1 style="color:#fff;text-align:center">Song Popularity Prediction App</h1> 
@@ -33,17 +42,17 @@ def main():
         run_ml_app()
 
 # One-Hot Encoding
-def one_hot_encode_key(selected_key):
-    encoded = {}
-    for i in range(1,12):
-        encoded[f'key_{i}'] = [1 if selected_key == i else 0]
-    return encoded
-
 def one_hot_encode_time_signature(selected_ts):
     encoded = {}
     valid_time_signatures = [1, 3, 4, 5]
     for ts in valid_time_signatures:
         encoded[f'time_signature_{ts}'] = [1 if selected_ts == ts else 0]
+    return encoded
+
+def one_hot_encode_key(selected_key):
+    encoded = {}
+    for i in range(1,12):
+        encoded[f'key_{i}'] = [1 if selected_key == i else 0]
     return encoded
 
 def run_ml_app():
@@ -61,14 +70,17 @@ def run_ml_app():
     instrumentalness = left.number_input('Instrumentalness', min_value=0.00, max_value=1.00, step=0.01)
     liveness = right.number_input('Liveness', min_value=0.00, max_value=1.00, step=0.01)
     loudness = left.number_input('Loudness', min_value=-60.00, max_value=0.00, step=0.01)
+    audio_mode = left.selectbox('Audio Mode', [0,1])
     speechiness = right.number_input('Speechiness', min_value=0.00, max_value=1.00, step=0.01)
     tempo = left.number_input('Tempo', min_value=0.00, max_value=1.00, step=0.01)
     audio_valence = right.number_input('Audio Valence', min_value=0.00, max_value=1.00, step=0.01)
-    audio_mode = left.selectbox('Audio Mode', [0,1])
-    selected_key = right.selectbox('Key', list(range(1,12)))
     selected_ts = st.selectbox('Time Signature', [1,3,4,5])
+    selected_key = right.selectbox('Key', list(range(1,12)))
     button = st.button('Predict')
 
+    time_signature_encoded = one_hot_encode_time_signature(selected_ts)
+    key_encoded = one_hot_encode_key(selected_key)
+    
     # Making Dictionary
     features = {
         'song_duration_ms':[song_duration_ms],
@@ -78,36 +90,19 @@ def run_ml_app():
         'instrumentalness':[instrumentalness],
         'liveness':[liveness],
         'loudness':[loudness],
+        'audio_mode':[audio_mode],
         'speechiness':[speechiness],
         'tempo':[tempo],
         'audio_valence':[audio_valence],
-        'audio_mode':[audio_mode]
+        **time_signature_encoded,
+        **key_encoded
     }
 
-    key_encoded = one_hot_encode_key(selected_key)
-    time_signature_encoded = one_hot_encode_time_signature(selected_ts)
-
-    # Combine all features into one dictionary
-    data_dict = {**features, **key_encoded, **time_signature_encoded}
-
-    # Meaking DataFrame from dictionary
-    data = pd.DataFrame(data_dict)
-
-    # Load scaler and model
-    try:
-        with open('scaler.pkl', 'rb') as file:
-            scaler = pickle.load(file)
-        with open('best_lasso_model.pkl', 'rb') as file:
-            best_lasso_model = pickle.load(file)
-    except FileNotFoundError:
-        st.error("Error: 'scaler.pkl' or 'best_lasso_model.pkl' not found.")
-        return
-    except pickle.PickleError:
-        st.error("Error: Failed to load 'scaler.pkl' or 'best_lasso_model.pkl'. The files might be corrupted.")
-        return
-    except Exception as e:
-        st.error(f"An unexpected error occurred: {e}")
-        return
+    data = pd.DataFrame(features, columns=[
+        song_duration_ms, acousticness, danceability, energy, instrumentalness, liveness, loudness,
+        audio_mode, speechiness, tempo, audio_valence, time_signature_1, time_signature_3, time_signature_4,
+        time_signature_5, key_1, key_2, key_3, key_4, key_5, key_6, key_7, key_8, key_9, key_10, key_11
+    ])
         
     # If button is clilcked
     if button:
