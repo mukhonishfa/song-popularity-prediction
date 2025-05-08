@@ -104,15 +104,16 @@ def run_ml_app():
         return
         
     # If button is clilcked
-    if st.button:
+    if button:
         if data.shape[1] == 26:
-        
-        # Transformation with scaler
-        data_scaled = scaler.transform(data)
-
-        # Making prediction
-        prediction = best_lasso_model.predict(data_scaled)
-        st.success(f'This song is {prediction[0]:.2f}')
+            # Transformation with scaler
+            data_scaled = scaler.transform(data)
+            
+            # Making prediction
+            prediction = best_lasso_model.predict(data_scaled)
+            st.success(f'This song is {prediction[0]:.2f}')
+        else:
+            st.error(f'The number of features does not match')
 
 if __name__ == "__main__":
     main()
