@@ -1,4 +1,0 @@
-gunicorn
-pandas
-scikit-learn
-numpy
