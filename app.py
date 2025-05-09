@@ -57,7 +57,7 @@ def one_hot_encode_key(selected_key):
 
 def run_ml_app():
     design = """<div style="padding:15px;">
-                    <h1 style="color:#fff">Song Popularity Prediction</h1>
+                    <h1 style="color:#000">Song Popularity Prediction</h1>
                 </div
              """
     
